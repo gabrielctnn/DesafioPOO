@@ -1,44 +1,54 @@
-### 1. `Conteudo` (Classe Abstrata Mãe)
-Funciona como o contrato base para tudo o que pode ser ensinado na plataforma.
-* **Atributos:** `titulo` (String), `descricao` (String).
-* **Constante:** `XP_PADRAO = 10.0` (Double).
-* **Método Abstrato:** `calcularXp()`.
+# 📚 Abstração de um Bootcamp com Java POO
 
-### 2. `Curso` (Classe Filha)
-Representa um bloco de aulas tradicionais com carga horária fixa.
-* **Atributos:** Herda de `Conteudo` e adiciona `cargaHoraria` (int).
-* **Polimorfismo:** `calcularXp()` retorna o `XP_PADRAO` multiplicado pela `cargaHoraria`.
+Este repositório foi criado com o objetivo de documentar meus estudos práticos sobre a **Programação Orientada a Objetos (POO)** no ecossistema Java. 
 
-### 3. `Mentoria` (Classe Filha)
-Representa um evento ou live com uma data específica.
-* **Atributos:** Herda de `Conteudo` e adiciona `data` (`LocalDate`).
-* **Polimorfismo:** `calcularXp()` retorna o `XP_PADRAO` acrescido de um bônus fixo de `20.0`.
-
-### 4. `Bootcamp` (Classe Gerencial)
-Agrupa uma coleção de conteúdos e uma lista de desenvolvedores participantes.
-* **Atributos:** `nome` (String), `descricao` (String), `dataInicial` (`LocalDate`), `dataFinal` (`LocalDate`), `devsInscritos` (`Set<Dev>`), `conteudos` (`Set<Conteudo>`).
-
-### 5. `Dev` (Classe de Regra de Negócio)
-Representa o usuário da plataforma e gerencia suas matrículas e conquistas.
-* **Atributos:** `nome` (String), `conteudosInscritos` (`Set<Conteudo>`), `conteudosConcluidos` (`Set<Conteudo>`).
-* **Métodos Principais:**
-    * `inscreverBootcamp(Bootcamp bootcamp)`: Adiciona todos os conteúdos do bootcamp à lista de inscritos do Dev e o matricula no respectivo bootcamp.
-    * `progredir()`: Remove o primeiro conteúdo da lista de pendentes (`conteudosInscritos`) e o move para a lista de sucessos (`conteudosConcluidos`).
-    * `calcularTotalXp()`: Varre o conjunto de conteúdos concluídos e soma o XP gerado por cada um de forma polimórfica.
+A ideia do projeto foi desenvolver um sistema que simula o funcionamento de uma plataforma de cursos e bootcamps (como a própria DIO), aplicando conceitos de arquitetura de software, herança, polimorfismo e manipulação avançada de coleções de dados.
 
 ---
 
-## 🛠️ Por que usar `LinkedHashSet`?
+## 🔍 O que é o Desafio?
 
-O uso da estrutura de dados correta é crucial na arquitetura de software:
-* **`Set`:** Garante que um desenvolvedor **não possa se inscrever repetidamente no mesmo curso** dentro do mesmo contexto (evitando duplicidade).
-* **`LinkedHashSet`:** Diferente de um `HashSet` comum (que não garante nenhuma ordenação), o `LinkedHashSet` mantém os elementos exatamente na **ordem cronológica em que foram adicionados**. Isso simula uma trilha de aprendizagem sequencial perfeitamente.
+O desafio consiste em modelar e codificar o ecossistema de um Bootcamp. No mundo real, um ambiente de aprendizado possui alunos, professores, cursos, mentorias e prazos. O objetivo aqui foi traduzir essa complexidade para o código estruturado em Java.
+
+O sistema gerencia as seguintes regras de negócio:
+* **Conteúdos:** A plataforma oferece **Cursos** (com carga horária) e **Mentorias** (com uma data específica). Ambos geram XP (experiência) para o aluno, mas calculados de formas diferentes.
+* **Bootcamps:** Agrupam um conjunto específico de cursos/mentorias e possuem uma data de início e fim.
+* **Desenvolvedores (Devs):** Podem se inscrever em um Bootcamp. Ao se inscreverem, recebem a lista de conteúdos pendentes. À medida que avançam ("progridem"), os conteúdos saem da lista de "inscritos" e vão para a lista de "concluídos", recalculando o XP total do usuário.
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 💡 Por que eu fiz este projeto? (Motivação e Aprendizado)
 
-1. Certifique-se de ter o **JDK 11 ou superior** instalado em sua máquina.
-2. Clone este repositório:
-   ```bash
-   git clone [https://github.com/seu-usuario/desafio-poo-dio.git](https://github.com/seu-usuario/desafio-poo-dio.git)
+Embora os conceitos de Classes e Objetos pareçam simples na teoria, o verdadeiro desafio do backend é **fazer os objetos interagirem entre si com segurança e performance**. Eu desenvolvi este projeto para consolidar três pilares principais:
+
+### 1. Domínio dos Pilares de POO na Prática
+* **Abstração:** Criei uma classe mãe chamada `Conteudo`. Ela não pode ser instanciada diretamente (é abstrata), servindo apenas como o molde perfeito para o que é um curso ou uma mentoria.
+* **Polimorfismo:** O método `calcularXp()` nasce na classe abstrata, mas se comporta de forma diferente em cada filha. O `Curso` multiplica o XP pela carga horária, enquanto a `Mentoria` soma um bônus fixo. O sistema chama o mesmo método, mas o Java decide o cálculo correto em tempo de execução.
+
+### 2. Uso Estratégico de Collections (`LinkedHashSet`)
+Uma das maiores decisões de design desse projeto foi a escolha da estrutura de dados para listar os cursos e os devs. Em vez de usar um `ArrayList` comum, utilizei o `LinkedHashSet`:
+* **Por que `Set`?** Porque um aluno não pode se inscrever duas vezes no mesmo curso e o bootcamp não pode ter alunos duplicados. O `Set` barra duplicidade automaticamente.
+* **Por que o `Linked`?** Um `HashSet` comum bagunça a ordem dos elementos. O `LinkedHashSet` garante que a ordem em que os cursos foram cadastrados seja mantida, respeitando a cronologia da trilha de estudos.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* **Linguagem:** Java 17 (ou superior)
+* **Paradigma:** Programação Orientada a Objetos (POO)
+* **Estruturas de Dados:** Java Collections API (`Set`, `LinkedHashSet`)
+* **IDE Recomendada:** IntelliJ IDEA / Eclipse
+
+---
+
+## 🚀 Como Baixar e Executar o Projeto
+
+Se você quiser testar o projeto localmente na sua máquina, siga os passos abaixo:
+
+### Pró-requisitos
+Você vai precisar do **JDK (Java Development Kit) 17** ou superior instalado e configurado nas suas variáveis de ambiente.
+
+### 1. Clonar o Repositório
+Abra o seu terminal ou prompt de comando e execute:
+```bash
+git clone [https://github.com/seu-usuario/nome-do-seu-repositorio.git](https://github.com/seu-usuario/nome-do-seu-repositorio.git)
